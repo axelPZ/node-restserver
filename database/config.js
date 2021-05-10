@@ -1,6 +1,8 @@
 //importar mongoose 
 const mongoose = require('mongoose');
 
+require('dotenv').config();
+
 //function de coneccion
 const dbConnection = async() => {
     try{
