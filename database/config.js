@@ -1,8 +1,6 @@
 //importar mongoose 
 const mongoose = require('mongoose');
 
-require('dotenv').config();
-
 //function de coneccion
 const dbConnection = async() => {
     try{
@@ -10,8 +8,8 @@ const dbConnection = async() => {
         await mongoose.connect(process.env.MONGODB_CNN, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: false,
-            useFindAndModify: true
+            useCreateIndex: true,
+            useFindAndModify: false
         });
 
         console.log('coneccion a la base de datos exitosa');
