@@ -1,16 +1,19 @@
 //importar mongoose 
 const mongoose = require('mongoose');
 const colors = require('colors');
+require('dotenv').config();
+
 //function de coneccion
 const dbConnection = async() => {
     try{
 
-        await mongoose.connect(process.env.MONGODB_CNN, {
+        await mongoose.connect( process.env.MONGODB_CNN, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
-            useCreateIndex: false,
-            useFindAndModify: true
+            useCreateIndex: true,
+            useFindAndModify: false
         });
+    
 
         console.log(colors.blue('coneccion a la base de datos exitosa'));
 

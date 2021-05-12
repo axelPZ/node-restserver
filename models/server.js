@@ -2,7 +2,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
-
+const colors = require('colors');
 
 class Server {
 
@@ -55,7 +55,7 @@ class Server {
         
         //traer le puerto desde las variables de enotrno
         this.app.listen(this.port,()=> {
-            console.log('Servidor corriendo en puerto... ',this.port );
+            console.log(colors.green('Servidor corriendo en puerto... '),this.port );
         });
     }
 }
