@@ -5,7 +5,7 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 //importar los metodos del contralador de auth
-const { login } = require('../controllers/auth');
+const { login, googleSignin } = require('../controllers/auth');
 
 //importo el middleware que valida los campos
 const { validarCampos } = require('../middlewares/validar-campos');
@@ -20,6 +20,13 @@ router.post('/login',[
     validarCampos
 ], login);
 
+
+//hacer una ruta para la utenticacion de google
+router.post('/google',[
+
+    check('id_token', 'EL id_token es necesario').not().isEmpty(),
+    validarCampos
+],googleSignin);
 
 
 

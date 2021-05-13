@@ -23,6 +23,7 @@ const UsuarioSchema  = Schema({
     role: {
         type: String,
         required: true,
+        default: 'USER_ROLE',
         emun: ['ADMIN_ROLE', 'USER_ROLE']//le damos solo los dos tipos que sera el campo
     },
     estado:{

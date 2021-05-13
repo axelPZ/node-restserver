@@ -46,9 +46,6 @@ const validarJWT= async (req = request, res = response, next)=> {
                     msg: 'El usuario con estado false'
                 });
             }
-
-
-
            //mandar el usuario autenticado por el req
            req.usuario = usuario;
 
