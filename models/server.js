@@ -10,6 +10,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
         this.usuariosPath = '/api/usuarios';
+        this.authPath = '/api/auth';
     
         // Conectar a base de datos
         this.connectionDB();
@@ -45,6 +46,8 @@ class Server {
     //definir las rutas
     routes(){
 
+        //neva path para el token y logeo de usuario
+        this.app.use( this.authPath, require('../routes/auth'));
         //llamar una ruta de mis rutas de usuario
         this.app.use(this.usuariosPath, require('../routes/user'));
         
@@ -55,7 +58,7 @@ class Server {
         
         //traer le puerto desde las variables de enotrno
         this.app.listen(this.port,()=> {
-            console.log(colors.green('Servidor corriendo en puerto... '),this.port );
+            console.log(colors.blue('Servidor corriendo en puerto... '),this.port );
         });
     }
 }

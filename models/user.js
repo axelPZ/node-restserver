@@ -38,7 +38,8 @@ const UsuarioSchema  = Schema({
 
 //funcion para que no aparescan campos al llamar a un usuario
 UsuarioSchema.methods.toJSON = function(){
-    const { __v, password, ...usuario} = this.toObject();//sacamos __v y el password, del  objeto
+    const { __v, password, _id, ...usuario} = this.toObject();//sacamos __v y el password, del  objeto
+    usuario.uid = _id;
     return usuario;
 }
 

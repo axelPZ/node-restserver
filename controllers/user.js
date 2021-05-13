@@ -57,9 +57,6 @@ const Usuario = require('../models/user');
         });
   }
 
-
-
-
 // POST
   const usuariosPost =  async(req, res = response) =>{
 
@@ -127,17 +124,20 @@ const Usuario = require('../models/user');
     //obtengo el id de  la ruta    
     const { id } = req.params;
 
+
     // BORRAR EL USUARIO DEFINITIVAMENTE
         //const usuario = await Usuario.findByIdAndDelete( id );
 
     // SOLO CAMBIAR EL ESTADO DEL USUARIO
       const usuario = await Usuario.findByIdAndUpdate( id, {estado: false});
 
+      //obtenfo el usuario autenticado que se a ingresado a la req con la verificacion del token
+        //usuarioAutonticado = req.usuario;
+
     //cambiar el codigo de status HTTP 
     res.status(200).json({
-
-        usuario
-    });
+        usuario,
+        });
   }
 
 

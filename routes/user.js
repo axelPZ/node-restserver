@@ -8,14 +8,22 @@ const { check } = require('express-validator');
 //requerir el helper para validar el role y el email
 const { esRoleValido, emailExiste, existUserId } = require('../helpers/db-validators');
 
-//importar el middleware que emos creado para validar los campos
-const { validarCampos } = require('../middlewares/validar-campos');
 
+
+        //es una forma de importar los middleware
+
+// //importar el middleware que emos creado para validar los campos
+// const { validarCampos } = require('../middlewares/validar-campos');
+// // //middleware para valdiar el JWT
+// const { validarJWT } = require('../middlewares/validar-jwt');
+// // //middleware que valida el role de los usuarios
+//  const { esAdminRole, tieneRole } = require('../middlewares/validar-roles');
+
+//otra forma de importar los middleware es crear un archivo index.js y ahi crear las importacion de todos los middleware, despues solo se manda a llamr el index.js
+const {validarCampos, validarJWT, tieneRole, esAdminRole} = require('../middlewares');
 
 
 const router = Router();
-
-
 
 //llamar los metodos del controlador
 router.get('/', usuariosGet);
@@ -33,7 +41,6 @@ router.post('/',[
         // validar el role con validacion personalizada
         //check('role').custom((role) => esRoleValido(role)),//esto lo podemos simplificar ya que lo que recive el check es igual al argumento que se le mando al helper
         check('role').custom( esRoleValido ),
-
         validarCampos //el ultimo middleware que se llama es el que hemos creado
 ],usuariosPost);
 
@@ -50,6 +57,9 @@ router.put('/:id',[
 
 // ELIMINAR USUARIO
 router.delete('/:id', [
+        validarJWT,
+        //esAdminRole, //este middleware fuerza que el usuario tiene que tener u role especifico
+        tieneRole('ADMIN_ROLE','VENTAS_ROLE','USER_ROLE'),
         check('id','No es un ID valido').isMongoId(),//si el id es un id de mongo
         check('id').custom(existUserId),//validar si el id existe
         validarCampos
