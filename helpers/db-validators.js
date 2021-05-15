@@ -1,10 +1,7 @@
 //los helpers son validacione con la base de datos
 
-//requerimos el modelo de nuestro role para hacer la validacoin
-const Role = require('../models/role');
-
-//exportar nuestro modelo para validar el email
-const Usuario = require('../models/user');
+//importo desde el index de los modelos, para hacer las validaciones
+const { Categoria, Usuario, Role, Producto } = require('../models');
 
 //validar el role
 const esRoleValido = async(role = '') =>  {
@@ -35,8 +32,75 @@ const existUserId = async ( id ) => {
 }
 
 
+//HELPERS DE LA CATEGORIA
+
+//validar si existe la categoria
+const existeCategoria =  async( id )=>
+{
+    // Verificar si el correo existe
+    const existeCategoria = await Categoria.findById(id);//funcion que me trae un usuario
+    if(!existeCategoria){
+        throw new Error(`la categoria con el id ${id} no existe`);
+    }
+}
+
+//validar si existe la categoria por nombre
+const existeCategoriaNombre = async( nombre )=>{
+
+    nombre = nombre.toUpperCase();
+
+    const data = {
+        nombre
+    }
+
+    const existeCategoria = await Categoria.findOne( data );
+    if(existeCategoria){
+        throw new Error( `la categoria con el nombre ${ nombre } ya existe`);
+    }
+}
+
+//si la categoria esta vigente
+const categoriaBigente = async( id )=>{
+
+    const categoria = await Categoria.findById( id );
+
+    if( !categoria.estado ){
+        throw new Error( `la categoria, ${ nombre } no esta vigente`);
+    }
+}
+
+
+//HELPERS DE PRODUCTO
+
+const existeProductoNombre= async( nombre )=>{
+    nombre = nombre.toUpperCase();
+
+    const data = {
+        nombre
+    }
+
+    const existeProducto = await Producto.findOne( data );
+    if(existeProducto){
+        throw new Error( `El producto ${ nombre } ya existe`);
+    }
+
+}
+
+const existeProductoId = async ( id ) => {
+    // Verificar si el correo existe
+    const existeProducto = await Producto.findById( id );//funcion que me trae un usuario
+    if(!existeProducto){
+        throw new Error(`el producto con el id ${id} no existe`);
+    }
+}
+
 module.exports = {
     esRoleValido,
     emailExiste,
-    existUserId
+    existUserId,
+    existeCategoria,
+    existeCategoriaNombre,
+    categoriaBigente,
+    existeProductoNombre,
+    existeProductoId
 }

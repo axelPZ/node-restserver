@@ -9,8 +9,15 @@ class Server {
     constructor(){
         this.app = express();
         this.port = process.env.PORT;
-        this.usuariosPath = '/api/usuarios';
-        this.authPath = '/api/auth';
+
+        this.paths = {
+
+            auth:       '/api/auth',
+            categorias: '/api/categorias',            
+            usuarios:   '/api/usuarios',
+            productos:  '/api/productos',
+            buscar:     '/api/buscar'
+        }
     
         // Conectar a base de datos
         this.connectionDB();
@@ -34,7 +41,6 @@ class Server {
         // CORS = sirve para indicar que rutas pueden tener acceso a nuestro rest server "npm i cors"
         this.app.use(cors());
 
-
         //Lectura y Parseo del body(recivir datos del front-end)
         this.app.use(express.json()); //para recivir un json
 
@@ -42,15 +48,22 @@ class Server {
         this.app.use( express.static('public'));
     }
 
-
     //definir las rutas
     routes(){
 
         //neva path para el token y logeo de usuario
-        this.app.use( this.authPath, require('../routes/auth'));
+        this.app.use( this.paths.auth, require('../routes/auth'));
         //llamar una ruta de mis rutas de usuario
-        this.app.use(this.usuariosPath, require('../routes/user'));
-        
+        this.app.use(this.paths.usuarios, require('../routes/user'));
+
+        //llamar las rutas de  la categoria
+        this.app.use(this.paths.categorias, require('../routes/categorias'));
+
+        //llamar las rutas de productos
+        this.app.use(this.paths.productos, require('../routes/productos'));
+
+         //llamar las rutas de buscar
+         this.app.use(this.paths.buscar, require('../routes/buscar'));
     }
 
     //definir el puerto de escucha
