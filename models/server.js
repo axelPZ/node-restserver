@@ -3,6 +3,7 @@ const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../database/config');
 const colors = require('colors');
+const fileUpload = require('express-fileupload'); //= npm i express-fileupload = https://www.npmjs.com/package/express-fileupload
 
 class Server {
 
@@ -16,7 +17,8 @@ class Server {
             categorias: '/api/categorias',            
             usuarios:   '/api/usuarios',
             productos:  '/api/productos',
-            buscar:     '/api/buscar'
+            buscar:     '/api/buscar',
+            uploads:    '/api/uploads'
         }
     
         // Conectar a base de datos
@@ -46,6 +48,13 @@ class Server {
 
         //Directorio publico
         this.app.use( express.static('public'));
+
+        //carga de archivos = npm i express-fileupload = https://www.npmjs.com/package/express-fileupload
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath: true  //extencion de express-fileupload para crear carpetas
+        }));
     }
 
     //definir las rutas
@@ -64,6 +73,9 @@ class Server {
 
          //llamar las rutas de buscar
          this.app.use(this.paths.buscar, require('../routes/buscar'));
+
+          //llamar las rutas de buscar
+          this.app.use(this.paths.uploads, require('../routes/uploads'));
     }
 
     //definir el puerto de escucha

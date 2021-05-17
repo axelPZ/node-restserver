@@ -11,6 +11,9 @@ const validarJWT = require('../middlewares/validar-jwt');
 //middleware que valida el role de los usuarios
 const validaRoles = require('../middlewares/validar-roles');
 
+//middleware para validar si me mandan el archivo
+const validarArchivo = require('../middlewares/validar-archivo');
+
 
 
 //exportar los middleware
@@ -21,5 +24,6 @@ const validaRoles = require('../middlewares/validar-roles');
 module.exports = {
     ...validaCampos,
     ...validarJWT,
-    ...validaRoles
+    ...validaRoles,
+    ...validarArchivo
 }

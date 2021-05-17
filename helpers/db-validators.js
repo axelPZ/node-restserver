@@ -94,6 +94,18 @@ const existeProductoId = async ( id ) => {
     }
 }
 
+
+//validar las colecciones permitidas al actualizar image
+const coleccionesPermitidas = ( coleccion = '', colecciones = []) => {
+
+    const incluida = colecciones.includes( coleccion );
+    if( !incluida ){
+        throw new Error(`La coleccion ${ coleccion }, no es permitida. Permitidas: ${ colecciones }`);
+    }
+
+    return true;
+}
+
 module.exports = {
     esRoleValido,
     emailExiste,
@@ -102,5 +114,6 @@ module.exports = {
     existeCategoriaNombre,
     categoriaBigente,
     existeProductoNombre,
-    existeProductoId
+    existeProductoId,
+    coleccionesPermitidas
 }
